@@ -375,19 +375,19 @@ runs:
             ARGS+=" --include-data-files=$datum"
           done
         fi
-        if [ "${{ inputs.embed-data-data-files-run-time-pattern }}" != "" ]; then
+        if [ "${{ inputs.embed-data-files-run-time-pattern }}" != "" ]; then
           for datum in $(echo ${{ inputs.embed-data-files-run-time-pattern }} | sed "s/,/ /g")
           do
             ARGS+=" --embed-data-data-files-run-time-pattern=$datum"
           done
         fi
-        if [ "${{ inputs.embed-data-data-files-compile-time-pattern }}" != "" ]; then
+        if [ "${{ inputs.embed-data-files-compile-time-pattern }}" != "" ]; then
           for datum in $(echo ${{ inputs.embed-data-files-compile-time-pattern }} | sed "s/,/ /g")
           do
             ARGS+=" --embed-data-data-files-compile-time-pattern=$datum"
           done
         fi
-        if [ "${{ inputs.embed-data-data-files-qt-resource-pattern }}" != "" ]; then
+        if [ "${{ inputs.embed-data-files-qt-resource-pattern }}" != "" ]; then
           for datum in $(echo ${{ inputs.embed-data-files-qt-resource-pattern }} | sed "s/,/ /g")
           do
             ARGS+=" --embed-data-data-files-qt-resource-pattern=$datum"
