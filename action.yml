@@ -84,6 +84,13 @@ inputs:
   access-token:
     description: "Github personal access token of an account authorized to access the Nuitka/Nuitka-commercial repo"
 
+  embed-data-files-run-time-pattern:
+    description: "datafile inclusion option 1"
+  embed-data-files-compile-time-pattern:
+    description: "datafile inclusion option 2"
+  embed-data-files-qt-resource-pattern:
+    description: "datafile inclusion option 3"
+
   enable-console:
     type: boolean
     description: 'When compiling for Windows or macOS, enable the console window and create a console application. This disables hints from certain modules, e.g. "PySide" that suggest to disable it. Defaults to true.'
@@ -241,6 +248,24 @@ runs:
             $args += @("--include-data-files=$datum");
           }
         }
+        if ("${{ inputs.embed-data-files-run-time-pattern }}" -ne ''){
+          $data = ("${{ inputs.embed-data-files-run-time-pattern }}" -split '\s*,\s*')
+          foreach ($datum in $data) {
+            $args += @("--embed-data-files-run-time-pattern=$datum");
+          }
+        }
+        if ("${{ inputs.embed-data-files-compile-time-pattern }}" -ne ''){
+          $data = ("${{ inputs.embed-data-files-compile-time-pattern }}" -split '\s*,\s*')
+          foreach ($datum in $data) {
+            $args += @("--embed-data-files-compile-time-pattern=$datum");
+          }
+        }
+        if ("${{ inputs.embed-data-files-qt-resource-pattern }}" -ne ''){
+          $data = ("${{ inputs.embed-data-files-qt-resource-pattern }}" -split '\s*,\s*')
+          foreach ($datum in $data) {
+            $args += @("--embed-data-files-qt-resource-pattern=$datum");
+          }
+        }
         if ("${{ inputs.include-package-data }}" -ne ''){
           $data = ("${{ inputs.include-package-data }}" -split '\s*,\s*')
           foreach ($datum in $data) {
@@ -283,7 +308,6 @@ runs:
           python -m nuitka $args "${{ inputs.script-name }}"
         }
       working-directory: ${{ inputs.working-directory }}
-
 
     - name: Build Executable (macOS and Linux)
       if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
