@@ -51,6 +51,8 @@ inputs:
     description: "A comma separated list of plugins, such as platforms, qml, etc."
 
   ### Control the inclusion of modules and packages in result. ###
+  noinclude-dlls:
+    description: "--noinclude-dlls option"
   include-data-dir:
     description: 'Include data files from complete directory in the distribution. This is recursive. Check "--include-data-files" with patterns if you want non-recursive inclusion. An example would be "--include-data-dir=/path/some_dir=data/some_dir" for plain copy, of the whole directory. All files are copied, if you want to exclude files you need to remove them beforehand, or use "--noinclude-data-files" option to remove them. Default empty.'
   include-data-files:
@@ -234,6 +236,12 @@ runs:
           $data = ("${{ inputs.include-module }}" -split '\s*,\s*')
           foreach ($datum in $data) {
             $args += @("--include-module=$datum");
+          }
+        }
+        if ("${{ inputs.noinclude-dlls }}" -ne ''){
+          $data = ("${{ inputs.include-dlls }}" -split '\s*,\s*')
+          foreach ($datum in $data) {
+            $args += @("--noinclude-dlls=$datum");
           }
         }
         if ("${{ inputs.include-data-dir }}" -ne ''){
